@@ -33,7 +33,7 @@
 		FROM students
 	</select>
 	
-	<select id="selectStudentsIdList" resultType="StudentsVO">
+	<select id="selectStudents" resultType="StudentsVO">
 		SELECT
 			students_id AS studentsId,
 			students_name AS studentsName,
@@ -42,6 +42,19 @@
 		FROM students
 		WHERE students_id = ${studentsId}
 	</select>
+	
+	<delete id="deleteStudents">
+		DELETE FROM students
+		WHERE students_id = ${studentsId}
+	</delete>
+	
+	<update id="updateStudents">
+		UPDATE students
+		SET 
+			students_name = #{studentsName}, 
+			students_password = #{studentsPassword}
+		WHERE students_id = #{studentsId}
+	</update>
 	
 	
 </mapper>
