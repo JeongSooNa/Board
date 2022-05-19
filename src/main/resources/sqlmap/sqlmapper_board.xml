@@ -1,0 +1,40 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- MyBatis에게 Mapper 경로를 적어야 한다. -->
+<mapper namespace="com.dw.board.mapper.BoardMapper">
+	<!-- 
+	int boardId;
+	String title;
+	String content;
+	String uppateAt;
+	String createAt; 
+	-->
+	
+	<insert id="insertSaveBoard">
+		INSERT INTO board
+		(
+			title,
+			content
+			<if test="studentsId != 0">
+			,students_id
+			</if>
+		)
+		VALUES
+		(
+			#{title},
+			#{content}
+			<if test="studentsId != 0">
+			,#{studentsId}
+			</if>
+		)
+	</insert>
+	
+	<select id="selectBoardAllList" resultType="BoardVO">
+		SELECT 
+			board_id as boardId,
+			title,
+			content,
+			update_at as updateAt,
+			create_at as createAt
+		FROM board
+	</select>
+</mapper>
