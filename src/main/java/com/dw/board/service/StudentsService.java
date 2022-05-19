@@ -51,6 +51,21 @@ public class StudentsService {
 		return studentsMapper.updateStudents(vo);
 	}
 	
+	// 가입 된 학생인지 아닌지 여부 Check
+	@Transactional(rollbackFor = {Exception.class})
+	public boolean isStudents(StudentsVO vo) {
+		StudentsVO student = studentsMapper.selectStudentsOne(vo);
+		if(student == null) return false;
+		String inputPassword = vo.getStudentsPassword(); // HTML에서 가져온 비밀번호
+		String password = student.getStudentsPassword(); // DB에서 가져온 비밀번호
+		
+		if(!passwordEncoder.matches(inputPassword, password)) { // 비밀번호 Check
+			return false;
+		}
+		
+		return true;
+	}
+	
 	
 	
 }

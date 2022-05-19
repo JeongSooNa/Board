@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dw.board.service.StudentsService;
@@ -22,6 +23,15 @@ import com.dw.board.vo.StudentsVO;
 public class StudentsRestController {
 	@Autowired
 	private StudentsService StudentsService;
+	
+	// 중요한 정보를 서버에 전송할 때 POST 사용!
+	// 로그인 정보 맞으면 true, 틀리면 false return
+	@CrossOrigin
+	@PostMapping("/login")
+	public boolean callIsLogin(@RequestBody StudentsVO vo) {
+		return StudentsService.isStudents(vo);
+	}
+	
 	// 학생 저장
 	// post는 body로 data를 받는다.(보안)
 	@CrossOrigin

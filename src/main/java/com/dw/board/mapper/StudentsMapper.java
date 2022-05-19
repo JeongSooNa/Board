@@ -57,4 +57,13 @@ public interface StudentsMapper {
 	 * comment : update
 	 */
 	public int updateStudents(StudentsVO vo);
+	
+	/**
+	 * @param vo
+	 * @return
+	 * @author : JeongSoo Na
+	 * @date : 2022. 5. 19.
+	 * comment : 학생 이름으로 학생 정보 조회
+	 */
+	public StudentsVO selectStudentsOne(StudentsVO vo);
 }
