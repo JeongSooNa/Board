@@ -31,4 +31,4 @@ public class BoardRestController {
 	public List<BoardVO> callBoardAllList() {
 		return boardService.getBoardAllList();
 	}
-} 
+}
