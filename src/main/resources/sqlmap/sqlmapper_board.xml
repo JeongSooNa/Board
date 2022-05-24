@@ -28,13 +28,24 @@
 		)
 	</insert>
 	
-	<select id="selectBoardAllList" resultType="BoardVO">
+	<select id="selectBoardAllList" resultType="map">
 		SELECT 
-			board_id as boardId,
-			title,
-			content,
-			update_at as updateAt,
-			create_at as createAt
-		FROM board
+			b.board_id AS boardId,
+			s.students_id AS studentsId,
+			s.students_name as studentsName,
+			b.title,
+			b.content,
+			IFNULL(DATE(b.update_at),"-") as updateAt,
+			DATE(b.create_at) as createAt
+		FROM board AS b
+		INNER JOIN students AS s
+		ON b.students_id = s.students_id
 	</select>
+	
+	
+	<!-- delete all board -->
+	<delete id="deleteAllBoard">
+		DELETE FROM board
+	</delete> 
+	
 </mapper>

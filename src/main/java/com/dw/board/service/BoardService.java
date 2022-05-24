@@ -1,6 +1,7 @@
 package com.dw.board.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,13 @@ public class BoardService {
 		return boardMapper.insertSaveBoard(vo);
 	}
 	// select all
-	public List<BoardVO> getBoardAllList(){
+	public List<Map<String,Object>> getBoardAllList(){
 		return boardMapper.selectBoardAllList();
+	}
+	
+	
+	// delete and alter
+	public int setRemoveAllBoard() {
+		return boardMapper.deleteAllBoard();
 	}
 }
