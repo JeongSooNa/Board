@@ -42,6 +42,32 @@
 		ON b.students_id = s.students_id
 	</select>
 	
+	<delete id="deleteBoard">
+		DELETE FROM board
+		WHERE board_id = #{boardId}
+	</delete>
+	
+	<update id="updateBoard">
+		UPDATE board
+		SET 
+			title = #{title},
+			content = #{content},
+			update_at = CURRENT_TIMESTAMP
+		WHERE board_id = #{boardId}
+	</update>
+	
+	<select id="selectBoard" resultType="BoardVO">
+		SELECT
+			board_id AS boardId,
+			students_id AS studentsId,
+			title,
+			content,
+			update_at AS updateAt,
+			create_at AS createAt
+		FROM board
+		WHERE board_id = #{boardId}
+	</select>
+	
 	
 	<!-- delete all board -->
 	<delete id="deleteAllBoard">

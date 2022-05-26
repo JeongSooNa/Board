@@ -32,11 +32,12 @@ public class StudentsRestController {
 	@PostMapping("/login")
 	public boolean callIsLogin(@RequestBody StudentsVO vo, HttpSession httpSession) {
 		
-		boolean isLogin = StudentsService.isStudents(vo);
-		if(isLogin) {
-			// 저장하는 방식 key, value
-			httpSession.setAttribute("name","najeongsoo");
-		}
+		// session 나중에 추가 예정
+//		boolean isLogin = StudentsService.isStudents(vo);
+//		if(isLogin) {
+//			// 저장하는 방식 key, value
+//			httpSession.setAttribute("name","najeongsoo");
+//		}
 		
 		return StudentsService.isStudents(vo);
 	}
@@ -56,10 +57,10 @@ public class StudentsRestController {
 	// 학생 전체 조회 (Map으로 return)
 	@GetMapping("/students/map")
 	public List<Map<String, Object>> callAllStudentsListByMap(HttpSession httpSession){
-		// session
-		String name = (String)httpSession.getAttribute("name");
-		System.out.println("세션에서 가져온 이름은 : "+name);
-		if(name == null) return null;
+		// session data 가져오기 추후 추가 예정
+//		String name = (String)httpSession.getAttribute("name");
+//		System.out.println("세션에서 가져온 이름은 : "+name);
+//		if(name == null) return null;
 		//
 		return StudentsService.getAllStudentsListByMap();
 	}

@@ -10,6 +10,6 @@ public class BoardVO{
 	private int studentsId;
 	private String title;
 	private String content;
-	private String uppateAt;
+	private String updateAt;
 	private String createAt;
 }
