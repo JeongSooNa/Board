@@ -45,4 +45,24 @@ public class BoardService {
 	public int setRemoveAllBoard() {
 		return boardMapper.deleteAllBoard();
 	}
+	
+	// 게시물 조회수
+	public int getUpdateBoardViews(int boardId) {
+		// 1. 게시판 번호를 이용해서 조회수를 select
+		BoardVO vo = boardMapper.selectBoard(boardId);
+		int views = vo.getCnt();
+		// 2. 조회수 1 증가
+		++ views; 
+		vo.setBoardId(boardId);
+		vo.setCnt(views);
+		return boardMapper.updateBoardViews(vo);
+	}
+	
+	// Search
+	public List<Map<String,Object>> getBoardSearch(String writer){
+		return boardMapper.selectBoardSearch(writer);
+	}
+	
+	
+	
 }

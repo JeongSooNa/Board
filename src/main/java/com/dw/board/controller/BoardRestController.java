@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dw.board.service.BoardService;
@@ -53,7 +54,6 @@ public class BoardRestController {
 	public BoardVO callBoard(@PathVariable("id") int boardId) {
 		return boardService.getBoard(boardId);
 	}
-	
 	// 게시물 전체 삭제
 	@CrossOrigin
 	@DeleteMapping("/board")
@@ -61,4 +61,18 @@ public class BoardRestController {
 		return boardService.setRemoveAllBoard();
 	}
 	
+	// 게시물 카운트
+	@CrossOrigin
+	@PatchMapping("/board/views/boardId/{id}")
+	public int callBoardViews(@PathVariable("id") int boardId) {
+		return boardService.getUpdateBoardViews(boardId);
+	}
+	
+	// 작성자 검색 (students_name 으로 검색)
+	// 쿼리String 으로
+	@CrossOrigin
+	@GetMapping("/board/search")
+	public List<Map<String,Object>> callBoardSearch(@RequestParam("writer") String writer) {
+		return boardService.getBoardSearch(writer);
+	}
 }
