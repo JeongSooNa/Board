@@ -75,4 +75,15 @@ public class BoardRestController {
 	public List<Map<String,Object>> callBoardSearch(@RequestParam("writer") String writer) {
 		return boardService.getBoardSearch(writer);
 	}
+	
+	// Statistics
+	@CrossOrigin
+	@GetMapping("/board/statistics")
+	public Map<String,Object> callBoardStatistics() {
+		// 학생수(studentsCnt), 게시글수(boardCnt), 작성자수(writerCnt), 조회수(viewsCnt)
+		return boardService.getBoardStatistics();
+	}
+	
+	
+	
 }

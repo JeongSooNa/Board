@@ -63,6 +63,10 @@ public class BoardService {
 		return boardMapper.selectBoardSearch(writer);
 	}
 	
+	// Statistics
+	public Map<String,Object> getBoardStatistics(){
+		return boardMapper.selectBoardStatistics();
+	}
 	
 	
 }

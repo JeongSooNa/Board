@@ -27,4 +27,7 @@ public interface BoardMapper {
 	public int updateBoardViews(BoardVO vo);
 	// Search
 	public List<Map<String,Object>> selectBoardSearch(@Param("writer") String writer);
+	// Statistics
+	public Map<String,Object> selectBoardStatistics();
+	
 }
