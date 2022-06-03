@@ -87,7 +87,4 @@ public class BoardRestController {
 		// 학생수(studentsCnt), 게시글수(boardCnt), 작성자수(writerCnt), 조회수(viewsCnt)
 		return boardService.getBoardStatistics();
 	}
-	
-	
-	
 }
