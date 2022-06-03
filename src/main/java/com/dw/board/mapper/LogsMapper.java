@@ -15,5 +15,5 @@ public interface LogsMapper {
 	// 접속이력 저장
 	public int insertLogs(LogVO logVO);
 	
-	public List<Map<String, Object>> selectBoardLogs();
+	public List<Map<String, Object>> selectBoardLogs(int logId);
 }

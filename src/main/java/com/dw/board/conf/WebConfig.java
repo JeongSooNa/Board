@@ -15,7 +15,9 @@ public class WebConfig implements WebMvcConfigurer {
 
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(interceptor); // 우리가 만든 interceptor를 spring에 등록
+		// 우리가 만든 interceptor를 spring에 등록
+		// excludePathPatterns 는 제외하고 intercept
+		registry.addInterceptor(interceptor).excludePathPatterns("/api/v1/logs"); 
 	}
 	
 	

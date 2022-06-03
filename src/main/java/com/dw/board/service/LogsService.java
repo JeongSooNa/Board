@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.dw.board.mapper.LogsMapper;
 import com.dw.board.vo.LogVO;
+import com.github.pagehelper.PageHelper;
 
 @Service
 public class LogsService {
@@ -18,9 +19,14 @@ public class LogsService {
 	public int setLogs(LogVO vo) {
 		return logsMapper.insertLogs(vo);
 	}
+	// select all
+	public List<Map<String, Object>> getLogsList(int pageNum, int pageSize){
+		PageHelper.startPage(pageNum, pageSize);
+		return logsMapper.selectBoardLogs(0);
+	}
 	// select
-	public List<Map<String, Object>> getLogsList(){
-		return logsMapper.selectBoardLogs();
+	public Map<String, Object> getLogs(int logId){
+		return logsMapper.selectBoardLogs(logId).get(0);
 	}
 	
 }

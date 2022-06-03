@@ -32,5 +32,8 @@
 			http_method,
 			create_at
 		FROM board_logs
+		<if test='logId != 0'>
+		WHERE log_id = #{logId}
+		</if>
 	</select>
 </mapper>

@@ -4,11 +4,15 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dw.board.service.LogsService;
+import com.github.pagehelper.PageInfo;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -17,7 +21,18 @@ public class LogsController {
 	private LogsService logsService;
 	
 	@GetMapping("/logs")
-	public List<Map<String, Object>> getLogList(){
-		return logsService.getLogsList();
+	@CrossOrigin
+	public PageInfo<Map<String, Object>> getLogList(@RequestParam("pageNum") int pageNum,
+			@RequestParam("pageSize") int pageSize){
+		
+		List<Map<String, Object>> list = logsService.getLogsList(pageNum, pageSize); 
+		
+		return new PageInfo<Map<String, Object>>(list);
+		// ...
+	}
+	@CrossOrigin
+	@GetMapping("/logs/logId/{logId}")
+	public Map<String, Object> callLogs(@PathVariable("logId") int logId) {
+		return logsService.getLogs(logId);
 	}
 }
