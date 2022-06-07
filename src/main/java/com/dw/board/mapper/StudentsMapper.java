@@ -66,4 +66,6 @@ public interface StudentsMapper {
 	 * comment : 학생 이름으로 학생 정보 조회
 	 */
 	public StudentsVO selectStudentsOne(StudentsVO vo);
+	
+	public List<Map<String,Object>> selectStudentsSearch(@Param("writer") String writer);
 }

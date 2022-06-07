@@ -29,7 +29,7 @@
 			students_id AS studentsId,
 			students_name AS studentsName,
 			students_password AS studentsPassword,
-			create_at AS createAt
+			DATE(create_at) AS createAt
 		FROM students
 	</select>
 	
@@ -64,6 +64,17 @@
 			create_at AS createAt
 		FROM students
 		WHERE students_name = #{studentsName}
+	</select>
+	
+	<!-- search -->
+	<select id="selectStudentsSearch" resultType="map">
+		SELECT
+			students_id AS studentsId,
+			students_name AS studentsName,
+			students_password AS studentsPassword,
+			DATE(create_at) AS createAt
+		FROM students
+		WHERE students_name LIKE CONCAT('%',#{writer},'%')
 	</select>
 	
 	
