@@ -76,8 +76,11 @@ public class BoardRestController {
 	// 쿼리String 으로
 	@CrossOrigin
 	@GetMapping("/board/search")
-	public List<Map<String,Object>> callBoardSearch(@RequestParam("writer") String writer) {
-		return boardService.getBoardSearch(writer);
+	public PageInfo<Map<String,Object>> callBoardSearch(@RequestParam("writer") String writer,
+			@RequestParam("pageNum") int pageNum,
+			@RequestParam("pageSize") int pageSize) {
+		List<Map<String,Object>> list = boardService.getBoardSearch(writer,pageNum, pageSize);
+		return new PageInfo<Map<String,Object>>(list);
 	}
 	
 	// Statistics
