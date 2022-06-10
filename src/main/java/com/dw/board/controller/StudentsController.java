@@ -4,10 +4,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class LogsController {
+public class StudentsController {
 	@GetMapping("logs")
-	public String loadLogsPage() {
-		return "logs";
+	public String loadStudentsPage() {
+		return "students";
 	}
 }
-// 뭔가 오류가 뜬다.. 찾자 천천히
