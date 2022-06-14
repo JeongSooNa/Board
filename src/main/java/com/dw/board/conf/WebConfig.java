@@ -23,7 +23,8 @@ public class WebConfig implements WebMvcConfigurer {
 				"/api/v1/logs",
 				"/api/v1/login",
 				"/join","/login",
-				"/resources/static/css/*"); 
+				"/resources/static/css/*",
+				"/resources/static/js/*"); 
 	}
 	
 	

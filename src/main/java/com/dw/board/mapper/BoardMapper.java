@@ -30,4 +30,9 @@ public interface BoardMapper {
 	// Statistics
 	public Map<String,Object> selectBoardStatistics();
 	
+	
+	// test
+	public int selectAllBoardTotal();
+	public List<Map<String,Object>> selectBoardAllListTest
+	(@Param("pageNum")int pageNum,@Param("pageSize")int pageSize);
 }
