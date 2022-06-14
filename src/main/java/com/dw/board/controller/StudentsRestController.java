@@ -32,15 +32,9 @@ public class StudentsRestController {
 	@CrossOrigin
 	@PostMapping("/login")
 	public boolean callIsLogin(@RequestBody StudentsVO vo, HttpSession httpSession) {
-		
-		// session 나중에 추가 예정
-//		boolean isLogin = StudentsService.isStudents(vo);
-//		if(isLogin) {
-//			// 저장하는 방식 key, value
-//			httpSession.setAttribute("name","najeongsoo");
-//		}
-		
-		return StudentsService.isStudents(vo);
+		// session
+		boolean isLogin = StudentsService.isStudents(vo,httpSession);
+		return isLogin;
 	}
 	
 	// 학생 저장

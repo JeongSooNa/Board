@@ -3,6 +3,8 @@ package com.dw.board.service;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -55,7 +57,7 @@ public class StudentsService {
 	
 	// 가입 된 학생인지 아닌지 여부 Check
 	@Transactional(rollbackFor = {Exception.class})
-	public boolean isStudents(StudentsVO vo) {
+	public boolean isStudents(StudentsVO vo, HttpSession httpSession) {
 		StudentsVO student = studentsMapper.selectStudentsOne(vo);
 		if(student == null) return false;
 		String inputPassword = vo.getStudentsPassword(); // HTML에서 가져온 비밀번호
@@ -64,7 +66,8 @@ public class StudentsService {
 		if(!passwordEncoder.matches(inputPassword, password)) { // 비밀번호 Check
 			return false;
 		}
-		
+		httpSession.setAttribute("studentsId", student.getStudentsId());
+		httpSession.setAttribute("studentsName", student.getStudentsName());
 		return true;
 	}
 	

@@ -65,13 +65,7 @@
           dataType : 'json', // 서버 결과를 json으로 응답 받겠다.
           data : JSON.stringify(jsonData),
           success : function(response){
-            // 로그인 성공 여부 alert
-            console.log(response);
-            // SQL과 비교해 대소문자를 구분하지 않는 듯 하다.
-            // if(response==false) alert('로그인 실패');
-            // if(response==true) alert('로그인 성공');
-
-            if(response) location.href = 'board/index.html'; // page이동
+            if(response) location.href = '/board?pageNum=1&pageSize=10'; // page이동
             else alert('비밀번호 혹은 이름이 틀렸습니다.')
           }
         })

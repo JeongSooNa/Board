@@ -7,7 +7,8 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
- 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -52,7 +53,14 @@ public class Interceptor implements HandlerInterceptor{
 		vo.setCreateAt(time);
 
 		logsService.setLogs(vo);
-
+		
+		
+		// session check (isLogin)
+		HttpSession session = request.getSession();
+		if(session.getAttribute("studentsId") == null) {
+			// session 값이 없으면 다시 요청
+			response.sendRedirect("/login"); 
+		}
 		return true;
 	}
 

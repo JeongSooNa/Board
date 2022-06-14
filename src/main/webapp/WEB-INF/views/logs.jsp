@@ -13,22 +13,22 @@
 </head>
 <body>
     <div class="container">
-        <!-- ì ì ê¸°ë¡ íì -->
+        <!-- 접속 기록 팝업 -->
         <div class="logs-popup">
             <div class="editor">
                 <div class="input-box">
-                    <label for="ip">ì ì IP : </label>
+                    <label for="ip">접속 IP : </label>
                     <input id="ip" type="text" value="192.168.52.43" readonly>
                 </div>
                 <div class="input-box">
-                    <label for="createAt">ì ì ìê° : </label>
+                    <label for="createAt">접속 시간 : </label>
                     <input id="createAt" type="text" value="2022-06-02 09:10:58" readonly>
                 </div>
                 <div class="input-box">
                     <div id="map" style="width:100%;height:350px;"></div>
                 </div>
                 <div class="btn-area">
-                    <a href="#" class="btn-cancel">ë«ê¸°</a>
+                    <a href="#" class="btn-cancel">닫기</a>
                 </div>
             </div>
         </div>
@@ -71,13 +71,13 @@
     <div class="main">
         <div class="topbar">
             <div class="toggle">
-                <!-- toggleì ëì¤ì ë§ë¤ê¸° -->
+                <!-- toggle은 나중에 만들기 -->
                 <ion-icon name="menu-outline"></ion-icon>
             </div>
             <!-- search -->
             <div class="search">
                 <label>
-                    <!-- <input id="searchBar" type="text" placeholder="ìì±ìë¥¼ ê²ìíì¸ì..." > -->
+                    <!-- <input id="searchBar" type="text" placeholder="작성자를 검색하세요..." > -->
                 </label>
             </div>
             <div>
@@ -88,50 +88,51 @@
          <div class="details">
              <div class="recentOrders">
                  <div class="cardHeader">
-                     <h2>ì ìì íì¤í ë¦¬</h2>
+                     <h2>접속자 히스토리</h2>
                  </div>
                  <table>
                      <thead>
                          <tr>
-                            <th>ë¡ê·¸ ë²í¸</th>
+                            <th>로그 번호</th>
                             <th>IP</th>
-                            <th>ìì²­ URL</th>
+                            <th>요청 URL</th>
                             <th>HTTP Method</th>
-                            <th>ì ì ë ì§</th>
+                            <th>접속 날짜</th>
                          </tr>
                      </thead>
                      <tbody id="boardData">
-                         <!-- <tr onclick="getPopup()">
-                            <td>1</td>
-                            <td>192.158.0.252</td>
-                            <td>/board</td>
-                            <td>GET</td>
-                            <td>2022-05-19 13:33:02</td>
-                         </tr>
-                         <tr onclick="getPopup()">
-                            <td>2</td>
-                            <td>192.158.0.252</td>
-                            <td>/board</td>
-                            <td>GET</td>
-                            <td>2022-05-19 13:33:02</td>
-                        </tr>
-                        <tr onclick="getPopup()">
-                            <td>3</td>
-                            <td>192.158.0.252</td>
-                            <td>/board</td>
-                            <td>GET</td>
-                            <td>2022-05-19 13:33:02</td>
-                        </tr> -->
+                     	<c:choose>
+                     		<c:when test="${fn:length(pageHelper.list) > 0}">
+		                     	<c:forEach items="${pageHelper.list}" var="item">
+		                     		<tr onclick="getPopup(${item.logs_id})">
+										<td>${item.logs_id}</td>
+										<td>${item.ip}</td>
+										<td>${item.url}</td>
+										<td>${item.http_method}</td>
+										<td>${item.create_at}</td>
+						        	</tr>
+		                     	</c:forEach>
+                     		
+                     		</c:when>
+                     		<c:otherwise>
+                     			<tr>
+                     				<td colspan="6" style="text-align:center;">게시글이 없습니다.</td>
+                     			</tr>
+                     		</c:otherwise>
+                     	</c:choose>
                      </tbody>
                  </table>
                  <div class="pagination">
-                    <!-- <a href="#">Previous</a>
-                    <a href="#">1</a>
-                    <a href="#">2</a>
-                    <a href="#">3</a>
-                    <a href="#">4</a>
-                    <a href="#">5</a>
-                    <a href="#">Next</a> -->
+                    <c:if test="${pageHelper.hasPreviousPage}">
+                 		<a href="/logs?pageNum=${pageHelper.pageNum-1}&pageSize=10#"">Previous</a>
+                 	</c:if>
+                 	<c:forEach begin="${pageHelper.navigateFirstPage}" end="${pageHelper.navigateLastPage}" var="pageNum">
+						<a id="pageNum${pageNum}" href="/logs?pageNum=${pageNum}&pageSize=${pageHelper.pageSize}#">${pageNum}</a>
+					</c:forEach>
+                 	<c:if test="${pageHelper.hasNextPage}">
+                 		<a href="/logs?pageNum=${pageHelper.pageNum+1}&pageSize=10#">Next</a>
+                 	</c:if>
+                 	<input id="nowPageNum" type=hidden value="${pageHelper.pageNum}" />
                  </div>
              </div>
          </div>
@@ -154,10 +155,18 @@
     list.forEach((item) => {item.addEventListener('mouseover',activeLink)});
 </script>
 <script>
+	//page 번호 알아내서 css 바꾸기
+	getPageNum()
+	function getPageNum(){
+		var pageNum = $('#nowPageNum').val();
+		$('#pageNum'+pageNum).css('backgroundColor','#287bff')
+		$('#pageNum'+pageNum).css('color','#fff')
+	}
+	
     function getPopup(logId){
         $('.logs-popup').css('display','block')
         $.ajax({
-            url : "http://localhost:8080/api/v1/logs/logId/"+logId,
+            url : "/api/v1/logs/logId/"+logId,
             type : "GET",
             dataType : "json",
             success : function (response){
@@ -167,22 +176,22 @@
                 $('#ip').val(response.ip);
                 $('#createAt').val(response.create_at);
 
-                // ì¹´ì¹´ì¤ë§µ
-                var mapContainer = document.getElementById('map'), // ì§ëë¥¼ íìí  div 
+                // 카카오맵
+                var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
                 mapOption = { 
-                    center: new kakao.maps.LatLng(latitude, longitude), // ì§ëì ì¤ì¬ì¢í
-                    level: 3 // ì§ëì íë ë ë²¨
+                    center: new kakao.maps.LatLng(latitude, longitude), // 지도의 중심좌표
+                    level: 3 // 지도의 확대 레벨
                 };
-                var map = new kakao.maps.Map(mapContainer, mapOption); // ì§ëë¥¼ ìì±í©ëë¤
-                // ë§ì»¤ê° íìë  ìì¹ìëë¤ 
+                var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+                // 마커가 표시될 위치입니다 
                 var markerPosition  = new kakao.maps.LatLng(latitude, longitude); 
-                // ë§ì»¤ë¥¼ ìì±í©ëë¤
+                // 마커를 생성합니다
                 var marker = new kakao.maps.Marker({
                     position: markerPosition
                 });
-                // ë§ì»¤ê° ì§ë ìì íìëëë¡ ì¤ì í©ëë¤
+                // 마커가 지도 위에 표시되도록 설정합니다
                 marker.setMap(map);
-                // ìë ì½ëë ì§ë ìì ë§ì»¤ë¥¼ ì ê±°íë ì½ëìëë¤
+                // 아래 코드는 지도 위의 마커를 제거하는 코드입니다
                 // marker.setMap(null);
             }
         });
@@ -193,10 +202,10 @@
 
 
     function getBoard(logId){
-        // boardId htmlì hidden íê¸° : ìì ,ì­ì ì ì´ì©íë ¤ê³ 
-        // íë©´ ëì°ê¸°
+        // boardId html에 hidden 하기 : 수정,삭제에 이용하려고
+        // 화면 띄우기
         $('.update-popup').css('display', 'block');
-        // ajax ìì±
+        // ajax 작성
         
     }
 
@@ -207,7 +216,7 @@
     getLogsList(1,10);
     function getLogsList(pageNum, pageSize){
         $.ajax({
-            url : "http://localhost:8080/api/v1/logs?pageNum="+pageNum+"&pageSize="+pageSize,
+            url : "/logs?pageNum="+pageNum+"&pageSize="+pageSize,
             type : "GET",
             dataType : "json",
             success : function (response){
@@ -227,35 +236,35 @@
                             "</tr>"
                     } // end for
 
-                    // íì´ì§ íë©´ êµ¬í
+                    // 페이징 화면 구현
                     var paginationHtml = '';
-                    // ì´ì  íì´ì§ê° ìì ë
+                    // 이전 페이지가 있을 때
                     if(response.hasPreviousPage){ 
                         paginationHtml += '<a onclick="getLogsList('+(response.pageNum-1)+','+pageSize+')" href="#">Previous</a>';
                     }
-                    // íì´ì§ ë²í¸
-                    for(var i=0; i<response.navigatepageNums.length; i++){ // íì´ì§ ë²í¸ ê¸¸ì´ ë§í¼ forë¬¸ ì¤í
+                    // 페이지 번호
+                    for(var i=0; i<response.navigatepageNums.length; i++){ // 페이지 번호 길이 만큼 for문 실행
                         paginationHtml += '<a id="pageNum'+response.navigatepageNums[i]+'" onclick="getLogsList('+response.navigatepageNums[i]+',10)" href="#">'+response.navigatepageNums[i]+'</a>';
                     }
-                    // ë¤ì íì´ì§ê° ìì ë
+                    // 다음 페이지가 있을 때
                     if(response.hasNextPage){ 
                         paginationHtml += '<a onclick="getLogsList('+(response.pageNum+1)+','+pageSize+')" href="#">Next</a>';
                     }
                     $('.pagination').children().remove();
                     $('.pagination').append(paginationHtml);
-                    //íì´ì§ ë²í¸ì ë§ê² css ìì 
+                    //페이지 번호에 맞게 css 수정
                     $('#pageNum'+pageNum).css('background-color','#287bff');
                     $('#pageNum'+pageNum).css('color','#fff');
 
                 }else{
-                    // ê²ìê¸ ìì ë
-                    html += '<tr><td colspan=6 style="text-align: center;">ê²ìê¸ì´ ììµëë¤.</td></tr>';
+                    // 게시글 없을 때
+                    html += '<tr><td colspan=6 style="text-align: center;">게시글이 없습니다.</td></tr>';
                 }
                 $('#boardData').children().remove();
                 $('#boardData').append(html);
             },
             error : function (request, status, error){
-                console.log("ìë¬ ë´ì© : "+error);
+                console.log("에러 내용 : "+error);
             }
         })
     }
