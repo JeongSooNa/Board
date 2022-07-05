@@ -2,6 +2,13 @@ plugins {
 	id 'org.springframework.boot' version '2.6.7'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
+	id 'war'
+}
+
+bootWar{
+	archiveBaseName= 'board'
+	archiveFileName= 'board.war'
+	archiveVersion= '0.0.1'
 }
 
 group = 'com.dw'
@@ -35,6 +42,8 @@ dependencies {
 	implementation 'org.springframework.session:spring-session-core'
 	// page handler
 	implementation group: 'com.github.pagehelper', name: 'pagehelper-spring-boot-starter', version: '1.4.2'
+	// deploy
+	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 }
 
 tasks.named('test') {

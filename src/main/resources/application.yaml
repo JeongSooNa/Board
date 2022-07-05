@@ -7,9 +7,40 @@ application:
 mybatis :
    mapper-locations: classpath:/sqlmap/sqlmapper_*.xml
    type-aliases-package: com.dw.board.vo
+
+pagehelper:
+   #helper-dialect : 사용할 데이터베이스
+   helper-dialect: mysql
+   #reasonable : 0페이지 요청이 들어오면 자동으로 1페이지로, 13페이지 까지 왔는데 14페이지 요청이 들어오면 자동으로 13페이지로 이동
+   reasonable: true
    
 # MySQL 접속 정보 설정
+---
+# 개발 버전 설정
+spring: 
+   profiles:
+      active: env # 이것만 운영/개발로 수정하며 사용
+# 여기까지는 공통yaml파일
+---
 spring:
+   profiles: env # 운영모드
+   datasource:
+      initialization-mode: always
+      schema: classpath:init.sql
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://js-database.cfwwo9ev8nzu.ap-northeast-2.rds.amazonaws.com:3306/dw?useUnicode=true&charaterEncoding=utf-8&serverTimezone=UTC
+      username: admin
+      password: 1q2w3e4r!
+   # JSP 경로 설정
+   mvc: 
+      view: 
+         prefix: /WEB-INF/views/
+         suffix: .jsp
+      # css, js, images 폴더 위치 설정
+      static-path-pattern: /resources/static/**
+---
+spring:
+   profiles: dev # 개발모드
    datasource:
       initialization-mode: always
       schema: classpath:init.sql
@@ -24,12 +55,6 @@ spring:
          suffix: .jsp
       # css, js, images 폴더 위치 설정
       static-path-pattern: /resources/static/**
-      
-pagehelper:
-   #helper-dialect : 사용할 데이터베이스
-   helper-dialect: mysql
-   #reasonable : 0페이지 요청이 들어오면 자동으로 1페이지로, 13페이지 까지 왔는데 14페이지 요청이 들어오면 자동으로 13페이지로 이동
-   reasonable: true
    
       
 ### propertises 일 경우
